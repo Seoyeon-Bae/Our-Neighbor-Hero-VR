@@ -1,4 +1,4 @@
-# Data Explanation
+# Data Description
 ## Column Explanation
 ### Group
 The experimental groups the participants were randomly assigned to
