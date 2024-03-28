@@ -1,0 +1,104 @@
+---
+title: "Analysis_for_SuperheroVR"
+author: "Seoyeon Bae"
+date: "2024-03-27"
+output:
+  pdf_document:
+    df_print: paged
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+```{r package, echo = FALSE}
+library(dplyr)
+library(plyr)
+library(psych)
+library(ggplot2)
+library(rstatix)
+library(extrafont)
+library(lsr)
+```
+
+#Read Data
+```{r data, echo = TRUE}
+dat <- read.csv('/Users/seoyeonbae/Rcode/superheroVR_data.csv')
+
+dat$group = as.factor(dat$group)
+
+#data parsing
+vr <- dat[dat$group == "vr",]
+com <- dat[dat$group == "com",]
+```
+
+#Normality Tests
+```{r normal, echo = TRUE}
+nor_1 <- ggplot(dat, aes(empathic_motives)) + theme(legend.position = 'none') + geom_histogram(aes(y =..density..), colour = 'black', fill = 'white') + labs(x = "empathic motives", y = "Density") + theme(text = element_text(family = 'serif'))
+nor_1 + stat_function(fun = dnorm, args = list(mean = mean(dat$empathic_motives, na.rm = TRUE), sd = sd(dat$empathic_motives, na.rm = TRUE)), colour = "black", size = 1)
+
+nor_2 <- ggplot(dat, aes(empathy)) + theme(legend.position = 'none') + geom_histogram(aes(y =..density..), colour = 'black', fill = 'white') + labs(x = "empathy", y = "Density") + theme(text = element_text(family = 'serif'))
+nor_2 + stat_function(fun = dnorm, args = list(mean = mean(dat$empathy, na.rm = TRUE), sd = sd(dat$empathy, na.rm = TRUE)), colour = "black", size = 1)
+
+nor_3 <- ggplot(dat, aes(prosocial_behavior)) + theme(legend.position = 'none') + geom_histogram(aes(y =..density..), colour = 'black', fill = 'white') + labs(x = "prosocial behavior", y = "Density") + theme(text = element_text(family = 'serif'))
+nor_3 + stat_function(fun = dnorm, args = list(mean = mean(dat$prosocial_behavior, na.rm = TRUE), sd = sd(dat$prosocial_behavior, na.rm = TRUE)), colour = "black", size = 1)
+
+qqnorm(dat$empathic_motives)
+qqline(dat$empathic_motives)
+qqnorm(dat$empathy)
+qqline(dat$empathy)
+qqnorm(dat$prosocial_behavior)
+qqline(dat$prosocial_behavior)
+
+describe(dat[, c("empathic_motives", "empathy", "prosocial_behavior")])
+
+shapiro.test(dat$empathic_motives)
+shapiro.test(dat$empathy)
+shapiro.test(dat$prosocial_behavior)
+```
+
+#Pairwise Comparisons
+##Empathic Motives
+```{r empmo, echo = TRUE}
+var.test(empathic_motives ~ group, data = dat)
+t.test(empathic_motives ~ group, data = dat)
+cohensD(vr$empathic_motives, com$empathic_motives)
+```
+
+##Empathy
+```{r emp, echo = TRUE}
+var.test(empathy ~ group, data = dat)
+t.test(empathy ~ group, data = dat)
+cohensD(vr$empathy, com$empathy)
+```
+
+##Hypothetical Prosocial Behavior
+```{r prob, echo = TRUE}
+wilcox.test(dat$prosocial_behavior ~ dat$group, paired = FALSE)
+dat %>% wilcox_effsize(prosocial_behavior ~ group)
+```
+
+# Graphs of Each Variable by Groups
+```{r barplot, echo = FALSE}
+
+df1_1 = ddply(dat, "group", summarise, mean=mean(empathic_motives), sd=sd(empathic_motives), n=length(empathic_motives), se=sd/sqrt(n))
+colnames(df1_1)[2] = "empathic_motives"
+df1_1
+p1_1 <- ggplot(df1_1, aes(x = group, y = empathic_motives, fill = group)) + scale_y_continuous(breaks = seq(36, 41, 1))
+pa1_1 = p1_1 + geom_bar(stat= "identity", position = "dodge") + geom_errorbar(aes(ymin = empathic_motives - se, ymax = empathic_motives + se), position = "dodge", width = 0.2) + labs(y= "Empathic Motives", x = "Groups")
+pa1_1
+
+df1_2 = ddply(dat, "group", summarise, mean=mean(empathy), sd=sd(empathy), n=length(empathy), se=sd/sqrt(n))
+colnames(df1_2)[2] = "empathy"
+df1_2
+p1_2 <- ggplot(df1_2, aes(x = group, y = empathy, fill = group)) + scale_y_continuous(breaks = seq(20, 60, 10))
+pa1_2 = p1_2 + geom_bar(stat= "identity", position = "dodge") + geom_errorbar(aes(ymin = empathy - se, ymax = empathy + se), position = "dodge", width = 0.2) + labs(y= "Empathy", x = "Groups")
+pa1_2
+
+df1_3 = ddply(dat, "group", summarise, mean=mean(prosocial_behavior), sd=sd(prosocial_behavior), n=length(prosocial_behavior), se=sd/sqrt(n))
+colnames(df1_3)[2] = "prosocial_behavior"
+df1_3
+p1_3 <- ggplot(df1_3, aes(x = group, y = prosocial_behavior, fill = group)) + scale_y_continuous(breaks = seq(0, 20000, 2000))
+pa1_3 = p1_3 + geom_bar(stat= "identity", position = "dodge") + geom_errorbar(aes(ymin = prosocial_behavior - se, ymax = prosocial_behavior + se), position = "dodge", width = 0.2) + labs(y= "Hypothetical Prosocial Behavior", x = "Groups")
+pa1_3
+```
