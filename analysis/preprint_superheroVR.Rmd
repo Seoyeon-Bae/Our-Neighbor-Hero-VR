@@ -84,7 +84,7 @@ dat %>% wilcox_effsize(prosocial_behavior ~ group)
 df1_1 = ddply(dat, "group", summarise, mean=mean(empathic_motives), sd=sd(empathic_motives), n=length(empathic_motives), se=sd/sqrt(n))
 colnames(df1_1)[2] = "empathic_motives"
 df1_1
-p1_1 <- ggplot(df1_1, aes(x = group, y = empathic_motives, fill = group)) + scale_y_continuous(breaks = seq(36, 41, 1))
+p1_1 <- ggplot(df1_1, aes(x = group, y = empathic_motives, fill = group)) + scale_y_continuous(breaks = seq(10, 56, 5))
 pa1_1 = p1_1 + geom_bar(stat= "identity", position = "dodge") + geom_errorbar(aes(ymin = empathic_motives - se, ymax = empathic_motives + se), position = "dodge", width = 0.2) + labs(y= "Empathic Motives", x = "Groups")
 pa1_1
 
