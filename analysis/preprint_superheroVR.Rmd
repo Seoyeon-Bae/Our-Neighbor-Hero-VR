@@ -89,21 +89,21 @@ dat %>% wilcox_effsize(prosocial_behavior ~ group)
 df1_1 = ddply(dat, "group", summarise, mean=mean(empathic_motives), sd=sd(empathic_motives), n=length(empathic_motives), se=sd/sqrt(n))
 colnames(df1_1)[2] = "empathic_motives"
 df1_1
-p1_1 <- ggplot(df1_1, aes(x = group, y = empathic_motives, fill = group)) + scale_x_discrete(labels = c("Combined", "VR-only")) + scale_y_continuous(breaks = seq(10, 56, 5))
-pa1_1 = p1_1 + geom_bar(stat= "identity", position = "dodge", width = 0.6) + geom_errorbar(aes(ymin = empathic_motives - se, ymax = empathic_motives + se), position = "dodge", width = 0.2) + labs(y= "Empathic Motives", x = "Groups") + theme_classic() + theme(axis.title = element_text(face = 'bold', size = 15), axis.text.x = element_text(size = 12), axis.text.y = element_text(size = 12), legend.position = 'none') + scale_fill_brewer(palette = "Set2")
+p1_1 <- ggplot(df1_1, aes(x = group, y = empathic_motives, fill = group)) + scale_x_discrete(labels = c("Growth Mindset + VR", "VR only")) + scale_y_continuous(breaks = seq(0, 56, 10))
+pa1_1 = p1_1 + geom_bar(stat= "identity", position = "dodge", width = 0.6) + geom_errorbar(aes(ymin = empathic_motives - se, ymax = empathic_motives + se), position = "dodge", width = 0.2) + labs(y= "Empathic Motives", x = "Groups") + theme_classic() + theme(axis.title = element_text(face = 'bold', size = 20), axis.text.x = element_text(face = 'bold', size = 16), axis.text.y = element_text(size = 16), legend.position = 'none') + scale_fill_brewer(palette = "Set2")
 pa1_1
 
 df1_2 = ddply(dat, "group", summarise, mean=mean(empathy), sd=sd(empathy), n=length(empathy), se=sd/sqrt(n))
 colnames(df1_2)[2] = "empathy"
 df1_2
-p1_2 <- ggplot(df1_2, aes(x = group, y = empathy, fill = group)) + scale_x_discrete(labels = c("Combined", "VR-only")) + scale_y_continuous(breaks = seq(20, 60, 10))
-pa1_2 = p1_2 + geom_bar(stat= "identity", position = "dodge", width = 0.6) + geom_errorbar(aes(ymin = empathy - se, ymax = empathy + se), position = "dodge", width = 0.2) + labs(y= "Empathy", x = "Groups") + theme_classic() + theme(axis.title = element_text(face = 'bold', size = 15), axis.text.x = element_text(size = 12), axis.text.y = element_text(size = 12), legend.position = 'none') + scale_fill_brewer(palette = "Set2")
+p1_2 <- ggplot(df1_2, aes(x = group, y = empathy, fill = group)) + scale_x_discrete(labels = c("Growth Mindset + VR", "VR only")) + scale_y_continuous(breaks = seq(0, 60, 10))
+pa1_2 = p1_2 + geom_bar(stat= "identity", position = "dodge", width = 0.6) + geom_errorbar(aes(ymin = empathy - se, ymax = empathy + se), position = "dodge", width = 0.2) + labs(y= "Empathy", x = "Groups") + theme_classic() + theme(axis.title = element_text(face = 'bold', size = 20), axis.text.x = element_text(face = 'bold', size = 16), axis.text.y = element_text(size = 16), legend.position = 'none') + scale_fill_brewer(palette = "Set2")
 pa1_2
 
 df1_3 = ddply(dat, "group", summarise, mean=mean(prosocial_behavior), sd=sd(prosocial_behavior), n=length(prosocial_behavior), se=sd/sqrt(n))
 colnames(df1_3)[2] = "prosocial_behavior"
 df1_3
-p1_3 <- ggplot(df1_3, aes(x = group, y = prosocial_behavior, fill = group)) + scale_x_discrete(labels = c("Combined", "VR-only")) + scale_y_continuous(breaks = seq(0, 20000, 2000))
-pa1_3 = p1_3 + geom_bar(stat= "identity", position = "dodge", width = 0.6) + geom_errorbar(aes(ymin = prosocial_behavior - se, ymax = prosocial_behavior + se), position = "dodge", width = 0.2) + labs(y= "Hypothetical Prosocial Behavior", x = "Groups") + theme_classic() + theme(axis.title = element_text(face = 'bold', size = 15), axis.text.x = element_text(size = 12), axis.text.y = element_text(size = 12), legend.position = 'none') + scale_fill_brewer(palette = "Set2")
+p1_3 <- ggplot(df1_3, aes(x = group, y = prosocial_behavior, fill = group)) + scale_x_discrete(labels = c("Growth Mindset + VR", "VR only")) + scale_y_continuous(breaks = seq(0, 20000, 2000))
+pa1_3 = p1_3 + geom_bar(stat= "identity", position = "dodge", width = 0.6) + geom_errorbar(aes(ymin = prosocial_behavior - se, ymax = prosocial_behavior + se), position = "dodge", width = 0.2) + labs(y= "Hypothetical Prosocial Behavior", x = "Groups") + theme_classic() + theme(axis.title = element_text(face = 'bold', size = 20), axis.text.x = element_text(face = 'bold', size = 16), axis.text.y = element_text(size = 16), legend.position = 'none') + scale_fill_brewer(palette = "Set2")
 pa1_3
 ```
